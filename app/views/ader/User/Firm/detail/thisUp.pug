@@ -1,0 +1,66 @@
+.row
+	.col-12.text-right
+		a.btn.btn-warning(href="#", data-toggle="modal", data-target="#upInfo") edit
+
+#upInfo.modal.fade
+	.modal-dialog
+		.modal-content
+			form#updateInfo(method="post", action="/adFirmUpd", enctype="multipart/form-data")
+				.modal-header: h3 update Information
+				.modal-body
+					input(type="hidden", name="obj[_id]", value=Firm._id)
+					.form-group.row
+						label.col-4.col-form-label(for="codeIpt") 编号
+						.col-8
+							input#codeIpt.form-control(type="text", name="obj[code]", value=Firm.code)
+					.form-group.row
+						label.col-4.col-form-label(for="nomeIpt") 名称
+						.col-8
+							input#nomeIpt.form-control(type="text", name="obj[nome]", value=Firm.nome)
+					.form-group.row
+						label.col-4.col-form-label(for="iptResp") 负责人
+						.col-8
+							input#iptResp.form-control(type="text", name="obj[resp]", value=Firm.resp)
+					.form-group.row
+						label.col-4.col-form-label(for="iptTel") 电话
+						.col-8
+							input#iptTel.form-control(type="text", name="obj[tel]", value=Firm.tel)
+					.form-group.row
+						label.col-4.col-form-label(for="iptIva") Iva号
+						.col-8
+							input#iptIva.form-control(type="text", name="obj[iva]", value=Firm.iva)
+					.form-group.row
+						label.col-4.col-form-label(for="iptPost") 邮编
+						.col-8
+							input#iptPost.form-control(type="text", name="obj[post]", value=Firm.post)
+					.form-group.row
+						label.col-4.col-form-label(for="iptAddr") 地址
+						.col-8
+							input#iptAddr.form-control(type="text", name="obj[addr]", value=Firm.addr)
+					.form-group.row
+						label.col-4.col-form-label(for="iptCt") 城市简称
+						.col-8
+							input#iptCt.form-control(type="text", name="obj[ct]", value=Firm.ct)
+					.form-group.row
+						label.col-4.col-form-label(for="iptCity") 城市
+						.col-8
+							input#iptCity.form-control(type="text", name="obj[city]", value=Firm.city)
+					.form-group.row
+						label.col-4.col-form-label(for="iptNt") 国家简称
+						.col-8
+							input#iptNt.form-control(type="text", name="obj[nt]", value=Firm.nt)
+					.form-group.row
+						label.col-4.col-form-label(for="iptNation") 国家
+						.col-8
+							input#iptNation.form-control(type="text", name="obj[nation]", value=Firm.nation)
+					.form-group.row
+						label.col-4.col-form-label(for="iptBank") 银行
+						.col-8
+							input#iptBank.form-control(type="text", name="obj[bank]", value=Firm.bank)
+					.form-group.row
+						label.col-4.col-form-label(for="iptIban") iban
+						.col-8
+							input#iptIban.form-control(type="text", name="obj[iban]", value=Firm.iban)
+				.modal-footer
+					button.btn.btn-default(type="button" data-dismiss="modal") 取消
+					button.btn.btn-success(type="submit") 提交

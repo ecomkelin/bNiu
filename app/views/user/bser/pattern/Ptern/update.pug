@@ -1,0 +1,58 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPterns") 材料列表
+				li.breadcrumb-item: a(href="/bsPtern/"+Ptern._id) 材料详情
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		hr
+		form.mt-5#objForm(method="post", action="/bsPternUpd", enctype="multipart/form-data")
+			input(type="hidden", name="obj[_id]", value=Ptern._id)
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="PtFirmIpt") PtFirm
+				.col-9.col-sm-6
+					select#PtFirmIpt.form-control(name="obj[PtFirm]", data-style="btn-info")
+						each PtFirm in PtFirms
+							if String(Ptern.PtFirm) == String(PtFirm._id)
+								-a;
+								option(value=PtFirm._id, selected="selected") #{PtFirm.code}
+							else
+								option(value=PtFirm._id) #{PtFirm.code}
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label 分类
+				- let PtCategFir = new Object();
+				if Ptern.PtCategFir
+					- PtCategFir = Ptern.PtCategFir;
+				.col-3.col-sm-2
+					input#ipt-PtCateg-1.iptPtCateg.form-control(type="hidden", name="obj[PtCategFir]", value=PtCategFir._id, autocomplete="off")
+					input#req-PtCateg-1.reqPtCateg.form-control(type="text", value=PtCategFir.code, autocomplete="off")
+				- let PtCategSec = new Object();
+				if Ptern.PtCategSec
+					- PtCategSec = Ptern.PtCategSec;
+				.col-3.col-sm-2
+					input#ipt-PtCateg-2.iptPtCateg.form-control(type="hidden", name="obj[PtCategSec]", value=PtCategSec._id, autocomplete="off")
+					input#req-PtCateg-2.reqPtCateg.form-control(type="text", value=PtCategSec.code, autocomplete="off")
+				- let PtCategThd = new Object();
+				if Ptern.PtCategThd
+					- PtCategThd = Ptern.PtCategThd;
+				.col-3.col-sm-2
+					input#ipt-PtCateg-3.iptPtCateg.form-control(type="hidden", name="obj[PtCategThd]", value=PtCategThd._id, autocomplete="off")
+					input#req-PtCateg-3.reqPtCateg.form-control(type="text", value=PtCategThd.code, autocomplete="off")
+				.offset-3.offset-sm-2.col-9.col-sm-6.col-form-label#PtCateg-box
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="codeIpt") code
+				.col-9.col-sm-6
+					input#codeIpt.form-control(type="text", name="obj[code]", value=Ptern.code)
+				.offset-3.col-9.col-form-label#codeDanger.text-danger(style="display:none") 请输入正确的编号
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="sortIpt") sort
+				.col-9.col-sm-6
+					input#sortIpt.form-control(type="number", name="obj[sort]", value=1)
+			hr
+			.form-group.row
+				.offset-sm-6.col-sm-2
+					input.btn.btn-success.btn-block(type="submit" value="确认")
+	script(src="/js/bser/pattern/Ptern/edit.js")

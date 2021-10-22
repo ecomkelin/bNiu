@@ -1,0 +1,44 @@
+extends ../../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPdspus") 产品列表
+				li.breadcrumb-item: a(href="/bsPdspu/"+Pdspu._id) 产品详情
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		hr
+		h4 产品颜色(已选)
+		.row#ColoredsBox
+			each Color in Pdspu.Colors
+				- var codeColor = ' ';
+				if Color.code
+					- codeColor = Color.code;
+					if codeColor.length > 8
+						- codeColor = codeColor.slice(0,6) + '...';
+				.col-4.col-md-6.col-xl-1.mt-3(id="Colored-"+Color._id)
+					img.js-click-imgEnlarge(src=Color.photo, width="100%", height="80px", style="object-fit: scale-down;")
+					.toggleColor.border(style="background-Color:#"+Color.rgb+"; height: 30px", data-objid=Pdspu._id, data-subid=Color._id, data-rgb=Color.rgb, data-code=Color.code, data-option=-1, title=Color.code)
+					.code.text-center(class="text-success", style="Font-size: 8px", title=Color.code) #{codeColor}
+		hr
+		h4 颜色池(未选)
+		.row#ColorPoolsBox
+			each Color in Colors
+				- var flag = 0;
+				each cl in Pdspu.Colors
+					if String(cl._id) == String(Color._id)
+						- flag = 1;
+						- break;
+				if flag == 1
+					- continue;
+				- var codeColor = ' ';
+				if Color.code
+					- codeColor = Color.code;
+					if codeColor.length > 8
+						- codeColor = codeColor.slice(0,6) + '...';
+				.col-4.col-md-6.col-xl-1.mt-3(id="ColorPool-"+Color._id)
+					img.js-click-imgEnlarge(src=Color.photo, width="100%", height="80px", style="object-fit: scale-down;")
+					.toggleColor.border(style="background-Color:#"+Color.rgb+"; height: 30px", data-objid=Pdspu._id, data-subid=Color._id, data-rgb=Color.rgb, data-code=Color.code, data-option=1, title=Color.code)
+					.code.text-center(style="Font-size: 8px", title=Color.code) #{codeColor}
+	script(src="/js/bser/product/Color.js")

@@ -1,0 +1,49 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		if info
+			-a;
+			.border.p-2.my-3.rounded.text-center.text-warning
+				h3 #{info}
+				.text-right
+					a.btn.btn-default(href="/bsOrders") 确认
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-md-6
+				button.stepClick#stepAll.btn.btn-success.ml-5.mt-3(type="button" data-step="") 全部
+				button.stepClick.btn.btn-default.ml-4.mt-3(type="button" data-step=1) 创建中
+				button.stepClick.btn.btn-default.ml-4.mt-3(type="button" data-step=10) 处理中
+				button.stepClick.btn.btn-default.ml-4.mt-3(type="button" data-step=50) 历史
+				button.stepClick.btn.btn-default.ml-5.mt-3(type="button" data-step="all") 所有
+			.col-md-2.pt-3
+				input#fromAt.datepicker.form-control(type="text", readonly="readonly")
+			.col-md-2.pt-3
+				input#toAt.datepicker.form-control(type="text", readonly="readonly")
+			.col-md-2.pt-3
+				button.btn.btn-info#interval-Orders(type="button") 筛选
+				
+
+		//- .stepsList
+			button.stepClick.btn.mt-3(type="button" data-pdnome="") 产品名称:
+			button.stepClick#stepAll.btn.btn-success.ml-5.mt-3(type="button" data-pdnome="") 全部
+			each step in steps
+				-a;
+				button.stepClick.btn.btn-default.ml-4.mt-3(type="button" data-pdnome=step._id) #{step.code}
+		.objectsList
+			input#objectFilterAjax(type="hidden", value="/bsOrdersAjax?@#objectsElem@bs")
+			#objectsElem.mt-5
+
+		#costMts
+
+		button.mt-3.btn.btn-info#interval-analys(type="button") 产品分析
+		#analysOdspu
+
+		div(style="height: 200px")
+		include ../../../../aaComponent/timepicker
+	script(src="/js/bser/order/Order/list/db.js")
+	script(src="/js/bser/order/Order/list/analys_costMt.js")
+	script(src="/js/bser/order/Order/list/analys_Odspu.js")

@@ -1,0 +1,80 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsMtrials") 材料列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-12.text-right
+				button.btn.btn-danger.jsDel-btnClick.mr-5(type="button") -
+				a.btn.btn-warning(href="/bsMtrialUp/"+Mtrial._id) 修改
+		hr
+
+		- getUrl = "/bsMtrialUpdAjax";
+		- fieldMtFirm = MtFirms.map((item) => {return {val: item._id, text: item.code} });
+		- object = Mtrial;
+		.row
+			.col-md-4
+			.col-md-4
+				.card.text-center(style="width: 100%;")
+					img.card-img-top.border-bottom.js-click-imgEnlarge(id="img-"+Mtrial._id+"-photo-sub", src=Mtrial.photo, alt="Mtrial Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+					
+					.row(class="jsImg-clickBefore-"+Mtrial._id+"-photo-sub")
+						.col-6
+							.jsImg-clickUpd.text-info(id="clickUpd-"+Mtrial._id+"-photo-sub") [点击]
+						.col-6
+							- field="photo", value=Mtrial.photo, subid="photo", valueHide=1, toUp=-1, fieldDesp="[upd]";
+							include ../../../../aaPlugin/ajaxInputUpd
+							- fieldDesp = null, valueHide = null, toUp = null;
+					.row(class="jsImg-clickAfter-"+Mtrial._id+"-photo-sub", style="display:none")
+						.col-6
+							.jsImg-cancel.btn.btn-secondary(id="clickUpd-"+Mtrial._id+"-photo-sub") [取消]
+						.col-6
+							form(method="post", action="/bsMtrialPhotoUpd", enctype="multipart/form-data")
+								input(type="hidden", name="obj[_id]", value=Mtrial._id)
+								input(type="hidden", name="flDir", value=Conf.photo.Mtrial.dir)
+								input(type="hidden", name="flName", value=crUser.Firm+"-"+Mtrial.code+"-"+crUser._id)
+								input.jsImg-ipt(id="ipt-"+Mtrial._id+"-photo-sub", type="file", name="fls", style="display:none")
+								.form-group
+									input.btn.btn-success(type="submit" value="确认")
+					.card-body
+						.code
+							- field="code", value=Mtrial.code, subid="code", fieldDesp="编号:";
+							include ../../../../aaPlugin/ajaxInputUpd
+						.MtFirm
+							- fieldSels = fieldMtFirm;
+							- field="MtFirm", subid="MtFirm", nullDesp = false;
+							if Mtrial.MtFirm
+								- selectedVal = Mtrial.MtFirm._id;
+								- value=object[field].code, fieldDesp="供货商:";
+							else
+								- selectedVal = "", value="", valueHide=1, fieldDesp="未选择供货商";
+							include ../../../../aaPlugin/ajaxSelectUpd
+							- fieldDesp = null, valueHide = null;
+						.isPtern
+							span 是否印花: 
+							if Mtrial.isPtern == 1
+								-a;
+								span #{Conf.isPtern.y.val}
+							else
+								span #{Conf.isPtern.n.val}
+						.MtCateg
+							if Mtrial.MtCategFir
+								- MtCategFir = Mtrial.MtCategFir;
+								.MtCategFir 分类: #{MtCategFir.code}
+								if Mtrial.MtCategSec
+									- MtCategSec = Mtrial.MtCategSec;
+									.MtCategSec 二级分类: #{MtCategSec.code}
+									if Mtrial.MtCategThd
+										- MtCategThd = Mtrial.MtCategThd;
+										.MtCategThd 三级分类: #{MtCategThd.code}
+							else
+								span 未分类
+						.sort.mt-2
+							- field="sort", value=Mtrial.sort, subid="sort", fieldDesp="权重:";
+							include ../../../../aaPlugin/ajaxInputUpd
+						.text-right.mt-3.jsDel-objElem(style="display:none")
+							a.text-danger(href="/bsMtrialDel/"+Mtrial._id) [删除]

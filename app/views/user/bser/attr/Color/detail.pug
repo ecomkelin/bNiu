@@ -1,0 +1,53 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsColors") 材料列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-12.text-right
+				button.btn.btn-danger.jsDel-btnClick.mr-5(type="button") -
+				a.btn.btn-warning(href="/bsColorUp/"+Color._id) 修改
+		hr
+
+		- getUrl = "/bsColorUpdAjax";
+		- object = Color;
+		.row
+			.col-md-4
+			.col-md-4
+				.card.text-center(style="width: 100%;")
+					img.card-img-top.border-bottom.js-click-imgEnlarge(id="img-"+Color._id+"-photo-sub", src=Color.photo, alt="Color Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+					
+					.row(class="jsImg-clickBefore-"+Color._id+"-photo-sub")
+						.col-6
+							.jsImg-clickUpd.text-info(id="clickUpd-"+Color._id+"-photo-sub") [点击]
+						.col-6
+							- field="photo", value=Color.photo, subid="photo", valueHide=1, toUp=-1, fieldDesp="[upd]";
+							include ../../../../aaPlugin/ajaxInputUpd
+							- fieldDesp = null, valueHide = null, toUp = null;
+					.row(class="jsImg-clickAfter-"+Color._id+"-photo-sub", style="display:none")
+						.col-6
+							.jsImg-cancel.btn.btn-secondary(id="clickUpd-"+Color._id+"-photo-sub") [取消]
+						.col-6
+							form(method="post", action="/bsColorPhotoUpd", enctype="multipart/form-data")
+								input(type="hidden", name="obj[_id]", value=Color._id)
+								input(type="hidden", name="flDir", value=Conf.photo.Color.dir)
+								input(type="hidden", name="flName", value=crUser.Firm+"-"+Color.code+"-"+crUser._id)
+								input.jsImg-ipt(id="ipt-"+Color._id+"-photo-sub", type="file", name="fls", style="display:none")
+								.form-group
+									input.btn.btn-success(type="submit" value="确认")
+					.card-body
+						.code
+							- field="code", value=Color.code, subid="code", fieldDesp="编号:";
+							include ../../../../aaPlugin/ajaxInputUpd
+						.border(class="jsColor-rgb-rgb-"+Color._id, style="width: 100%; background-color: #"+Color.rgb)
+							- field="rgb", value=Color.rgb, subid="rgb", fieldDesp="RGB:";
+							include ../../../../aaPlugin/ajaxInputUpd
+						.sort.mt-3
+							- field="sort", value=Color.sort, subid="sort", fieldDesp="权重:";
+							include ../../../../aaPlugin/ajaxInputUpd
+						.text-right.mt-3.jsDel-objElem(style="display:none")
+							a.text-danger(href="/bsColorDel/"+Color._id) [删除]

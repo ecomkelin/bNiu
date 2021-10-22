@@ -1,0 +1,45 @@
+extends ../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-12.text-right
+				a.btn.btn-warning(href="/bsLangAdd") +
+		if Langs && Langs.length > 0
+			- let codes = Langs.map((item) => {return item.code});
+			- let widthTr = 100/(codes.length+1);
+
+			table.table.table-hover.table-bordered
+				thead
+					tr
+						th(width=widthTr+"%")
+						each code in codes
+							-a;
+							th(width=widthTr+"%") #{code}
+				tbody
+					- getUrl = "/bsLangUpdAjax";
+					each Lang in Langs
+						- object = Lang;
+						tr
+							- langDef = Lang.langs.find((item) => {return item.Lang == null;});
+							td
+								- field="nome", value=langDef.nome, subid=langDef._id;
+								include ../../../aaPlugin/ajaxInputUpd
+
+							each code in codes
+								-a;
+								td
+									if code == Lang.code
+										- field="code", value=Lang.code, subid="code";
+										include ../../../aaPlugin/ajaxInputUpd
+									else
+										- lang = Lang.langs.find((item) => {if(item.Lang) return item.Lang.code == code});
+										if lang
+											- field="nome", value=lang.nome, subid=lang._id;
+											include ../../../aaPlugin/ajaxInputUpd
+										else
+											span.text-danger Error

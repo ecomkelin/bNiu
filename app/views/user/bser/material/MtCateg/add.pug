@@ -1,0 +1,41 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsMtCategs") 材料分类列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		hr
+		form.mt-5#objForm(method="post", action="/bsMtCategNew", enctype="multipart/form-data")
+			- let level = 1;
+			if MtCategFar
+				- level = MtCategFar.level+1;
+				input(type="hidden", name="obj[MtCategFar]", value=MtCategFar._id)
+				.row
+					label.col-3.col-sm-2.col-form-label(for="codeIpt") 父分类
+					.col-9.col-sm-6 #{MtCategFar.code}
+
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="codeIpt") code
+				.col-9.col-sm-6
+					input#codeIpt.form-control(type="text", name="obj[code]")
+				.offset-3.col-9.col-form-label#codeDanger.text-danger(style="display:none") 请输入正确的编号
+			if level != 3
+				-a;
+				.form-group.row
+					label.col-3.col-sm-2.col-form-label(for="isBottomIpt") 底层
+					.col-9.col-sm-6
+						select#isBottomIpt.form-control(name="obj[isBottom]", data-style="btn-info")
+							each isBottom in Conf.isBottom
+								-a;
+								option(value=isBottom.num) #{isBottom.val}
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="sortIpt") sort
+				.col-9.col-sm-6
+					input#sortIpt.form-control(type="number", name="obj[sort]", value=1)
+			hr
+			.form-group.row
+				.offset-sm-6.col-sm-2
+					input.btn.btn-success.btn-block(type="submit" value="确认")

@@ -1,0 +1,31 @@
+extends ../../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPdspus") 产品列表
+				li.breadcrumb-item: a(href="/bsPdspu/"+Pdspu._id) 产品详情
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.text-center
+			.col-2
+				button.sAdd.btn.btn-success(type="button", data-id=Pdspu._id, data-size="l") +
+			.col-2
+				button.sDel.btn.btn-danger(type="button",  data-id=Pdspu._id, data-size="l") -
+			.col-4
+				h3 尺寸:
+			.col-2
+				button.sAdd.btn.btn-success(type="button", data-id=Pdspu._id, data-size="r") +
+			.col-2
+				button.sDel.btn.btn-danger(type="button",  data-id=Pdspu._id, data-size="r") -
+
+		.mt-4.py-3.border.text-center
+			each size in Pdspu.sizes
+				- let val = size;
+				each Size in Sizes
+					if Size.size == size
+						- val = Size.symbol;
+						- break;
+				span.mr-5.mt-3 #{val}
+	script(src="/js/bser/product/size.js")

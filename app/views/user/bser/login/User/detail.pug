@@ -1,0 +1,19 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsUsers") 用户列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		hr
+		.row
+			.col-12.text-right
+				include ./detail/updInfo
+				span &nbsp;
+				include ./detail/updCode
+				span &nbsp;
+				include ./detail/updPwd
+		include ./detail/thisInfo
+		include ./detail/delete

@@ -1,0 +1,10 @@
+extends ./aalayout/layout
+
+block content
+	.container
+		h1 ErrorPage 操作错误页面
+		h2.text-danger #{info}
+		div.text-danger #{error}
+		if redirectUrl
+			-a;
+			a.btn.btn-warning(href=redirectUrl) 返回

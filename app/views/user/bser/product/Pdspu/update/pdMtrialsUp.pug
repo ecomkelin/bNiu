@@ -1,0 +1,44 @@
+extends ../../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPdspus") 产品列表
+				li.breadcrumb-item: a(href="/bsPdspu/"+Pdspu._id) 产品详情
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		hr
+		h4 材质(已选)
+		.row#MtrialedsBox
+			each Mtrial in Pdspu.Mtrials
+				- var codeMtrial = ' ';
+				if Mtrial.code
+					- codeMtrial = Mtrial.code;
+					if codeMtrial.length > 8
+						- codeMtrial = codeMtrial.slice(0,6) + '...';
+				.col-6.col-lg-3.mt-3.text-center(id="Mtrialed-"+Mtrial._id)
+					.card
+						img.card-img-top.border-bottom.js-click-imgEnlarge(src=Mtrial.photo, alt="Mtrial Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+						.toggleMtrial.text-success(data-objid=Pdspu._id, data-subid=Mtrial._id, data-option=-1) #{codeMtrial}
+		hr
+		h4 未选
+		.row#MtrialPoolsBox
+			each Mtrial in Mtrials
+				- var flag = 0;
+				each cl in Pdspu.Mtrials
+					if String(cl._id) == String(Mtrial._id)
+						- flag = 1;
+						- break;
+				if flag == 1
+					- continue;
+				- var codeMtrial = ' ';
+				if Mtrial.code
+					- codeMtrial = Mtrial.code;
+					if codeMtrial.length > 8
+						- codeMtrial = codeMtrial.slice(0,6) + '...';
+				.col-6.col-lg-3.mt-3.text-center(id="MtrialPool-"+Mtrial._id)
+					.card
+						img.card-img-top.border-bottom.js-click-imgEnlarge(src=Mtrial.photo, alt="Mtrial Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+						.toggleMtrial.text-dark(data-objid=Pdspu._id, data-subid=Mtrial._id, data-option=1) #{codeMtrial}
+	script(src="/js/bser/product/Mtrial.js")

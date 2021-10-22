@@ -1,0 +1,74 @@
+.border.rounded.p-2.mt-3
+	.row
+		.col-6
+			h3.PternAll 模特印花:
+		.col-6.text-right.mt-3.jsUp-objElem(style="display:none")
+			a.text-warning(href="/bsPdspuPternUp/"+Pdspu._id) [修改]
+	.row
+		each Ptern in Pdspu.Pterns
+			-a;
+			.col-6.col-xl-2.mt-3
+				.card.text-center(style="width: 100%;")
+					img.card-img-top.border-bottom.js-click-imgEnlarge(src=Ptern.photo, alt="Ptern Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+					h5.mt-3.card-title.PternOption(id=Ptern._id) #{Ptern.code}
+h3.mt-3 库存
+
+- let Pterns = new Array();
+if Pdspu.Pterns && Pdspu.Pterns.length > 0
+	- Pterns = Pdspu.Pterns;
+else 
+	- Pterns.push({_id: null, code: "Pattern Unico"});
+
+- let Colors = new Array();
+if Pdspu.Colors && Pdspu.Colors.length > 0
+	- Colors = Pdspu.Colors;
+else 
+	- Colors.push({_id: null, code: "Color Unico"});
+
+- var sizes = new Array();
+if Pdspu.sizes && Pdspu.sizes.length > 0
+	- sizes = Pdspu.sizes;
+else
+	- sizes.push(0);
+
+
+- var widthTr = 100/(sizes.length+1);
+
+- getUrl = "/bsPdspuPdskuUpdAjax"
+- field="stock", subid='stock', fieldDesp=null;
+
+each Ptern in Pterns
+	- Ptern_Pdskus = Pdspu.Pdskus.filter((Pdsku_item) => {if((Pdsku_item.Ptern == Ptern._id) || (String(Pdsku_item.Ptern) == String(Ptern._id))) return true; return false; });
+	.PternTable(id="PternTable-"+Ptern._id)
+		if Ptern._id
+			-a;
+			.row
+				.col-6
+					img.js-click-imgEnlarge(src=Ptern.photo, alt="Ptern Photo Lost", width="100%", height="80px", style="object-fit: scale-down;")
+				.col-6.pt-3 #{Ptern.code}
+
+		table.table.table-hover.table-bordered.text-center
+			thead
+				tr
+					th(width=widthTr+"%")
+					each size in sizes
+						- let val = size;
+						th(width=widthTr+"%") #{val}
+			tbody
+				each Color in Colors
+					- Color_Pdskus = Ptern_Pdskus.filter((Pdsku_item) => {if((Pdsku_item.Color == Color._id) || (String(Pdsku_item.Color) == String(Color._id))) return true; return false; });
+					tr
+						td #{Color.code}
+
+						each size in sizes
+							if size == 0
+								- size_Pdskus = Color_Pdskus;
+							else
+								- size_Pdskus = Color_Pdskus.filter((Pdsku_item) => {return Pdsku_item.size == size});
+							td
+								if size_Pdskus && size_Pdskus.length == 1
+									- Pdsku = size_Pdskus[0];
+									- object=Pdsku, value=Pdsku.stock;
+									include ../../../../../aaPlugin/ajaxInputUpd
+								else
+									span #{Color_Pdskus}

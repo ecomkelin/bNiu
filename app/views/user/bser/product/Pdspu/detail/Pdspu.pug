@@ -1,0 +1,102 @@
+- getUrl = "/bsPdspuUpdAjax";
+- fieldSizeSyst = SizeSysts.map((item) => {return {val: item._id, text: item.code} });
+- object = Pdspu;
+.row.text-center(style="width: 100%;")
+	.col-md-6.mt-3
+		img.js-click-imgEnlarge(id="img-"+Pdspu._id+"-photo-sub", src=Pdspu.photo, alt="Pdspu Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+								
+		.row(class="jsImg-clickBefore-"+Pdspu._id+"-photo-sub")
+			.col-6
+				.jsImg-clickUpd.text-info(id="clickUpd-"+Pdspu._id+"-photo-sub") [点击]
+			.col-6
+				- field="photo", value=Pdspu.photo, subid="photo", valueHide=1, toUp=-1, fieldDesp="[upd]";
+				include ../../../../../aaPlugin/ajaxInputUpd
+				- fieldDesp = null, valueHide = null, toUp = null;
+		.row(class="jsImg-clickAfter-"+Pdspu._id+"-photo-sub", style="display:none")
+			.col-6
+				.jsImg-cancel.btn.btn-secondary(id="clickUpd-"+Pdspu._id+"-photo-sub") [取消]
+			.col-6
+				form(method="post", action="/bsPdspuPhotoUpd", enctype="multipart/form-data")
+					input(type="hidden", name="obj[_id]", value=Pdspu._id)
+					input(type="hidden", name="flDir", value=Conf.photo.Pdspu.dir)
+					input(type="hidden", name="flName", value=crUser.Firm+"-"+Pdspu.code+"-"+crUser._id)
+					input.jsImg-ipt(id="ipt-"+Pdspu._id+"-photo-sub", type="file", name="fls", style="display:none")
+					.form-group
+						input.btn.btn-success(type="submit" value="确认")
+		include ./PdspuPhotos
+	.col-md-6.mt-3
+		.code
+			- field="code", value=Pdspu.code, subid="code", fieldDesp="编号:";
+			include ../../../../../aaPlugin/ajaxInputUpd
+		.PdNome
+			span 名称:
+			if Pdspu.PdNome
+				- PdNome = Pdspu.PdNome;
+				span #{PdNome.code}
+			else
+				span 未命名
+		.PdCateg
+			if Pdspu.PdCategFir
+				- PdCategFir = Pdspu.PdCategFir;
+				.PdCategFir 分类: #{PdCategFir.code}
+				if Pdspu.PdCategSec
+					- PdCategSec = Pdspu.PdCategSec;
+					.PdCategSec 二级分类: #{PdCategSec.code}
+					if Pdspu.PdCategThd
+						- PdCategThd = Pdspu.PdCategThd;
+						.PdCategThd 三级分类: #{PdCategThd.code}
+			else
+				span 未分类
+		.SizeSyst
+			- fieldSels = fieldSizeSyst, fieldDesp="尺寸标准:";
+			- field="SizeSyst", subid="SizeSyst";
+			if Pdspu.SizeSyst
+				- selectedVal = Pdspu.SizeSyst._id;
+				- value=object[field].code;
+			else
+				- selectedVal = "", value="", valueHide=1, fieldDesp="未分类";
+			include ../../../../../aaPlugin/ajaxSelectUpd
+			- fieldDesp = null, valueHide = null;
+
+			//- span 尺寸标准:
+			//- if Pdspu.SizeSyst
+			//- 	- SizeSyst = Pdspu.SizeSyst;
+			//- 	span.mr-3 #{SizeSyst.code}
+			//- else
+			//- 	span 错误
+		.price
+			- field="price", value=Pdspu.price, subid="price", fieldDesp="售价:";
+			include ../../../../../aaPlugin/ajaxInputUpd
+		.cost
+			- field="cost", value=Pdspu.cost, subid="cost", fieldDesp="成本:";
+			include ../../../../../aaPlugin/ajaxInputUpd
+		.sort
+			- field="sort", value=Pdspu.sort, subid="sort", fieldDesp="排序:";
+			include ../../../../../aaPlugin/ajaxInputUpd
+		.text-right.mt-3.jsUp-objElem(style="display:none")
+			a.text-warning(href="/bsPdspuUp/"+Pdspu._id) [修改基本信息]
+		.text-right.mt-3.jsDel-objElem(style="display:none")
+			a.text-danger(href="/bsPdspuDel/"+Pdspu._id) [删除此产品]
+.border.rounded.mt-3.p-3(style="width: 100%;")
+	.row
+		.col-6
+			h5.mt-3.card-title 模特尺寸
+		.col-6.text-right.jsUp-objElem(style="display:none")
+			a.btn.btn-warning(href="/bsPdspuSizeUp/"+Pdspu._id) [修改尺寸]
+	.mt-2
+		each size in Pdspu.sizes
+			- let val = size;
+			span.mr-5 #{size}
+		
+.border.rounded.mt-3.p-3(style="width: 100%;")
+	.row
+		.col-6
+			h5.mt-3.card-title 模特颜色
+		.col-6.text-right.jsUp-objElem(style="display:none")
+			a.btn.btn-warning(href="/bsPdspuColorUp/"+Pdspu._id) [修改颜色]
+	.row
+		each Color in Pdspu.Colors
+			-a;
+			.col-4.col-md-2.col-xl-1
+				.mt-2 #{Color.code}
+				img.js-click-imgEnlarge(src=Color.photo, width="100%", height="80px", style="object-fit: scale-down;")

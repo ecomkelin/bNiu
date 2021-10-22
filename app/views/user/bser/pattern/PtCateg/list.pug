@@ -1,0 +1,123 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-12.text-right
+				button.btn.btn-primary.jsDetail-btnClick.mr-5.my-3(type="button") 详
+				button.btn.btn-danger.jsDel-btnClick.mr-5.my-3(type="button") - 
+				a.btn.btn-warning(href="/bsPtCategAdd") +
+		hr
+		- getUrl = "/bsPtCategUpdAjax";
+		- fieldIsBottom = [{val: -1, text: "非底层"},{val: 1, text: "底层"}];
+		each PtCategFir in PtCategFirs
+			- object = PtCategFir;
+			.row
+				.col-10.border.rounded.my-2.p-2
+					.row
+						.col-8
+							- field="code", value=PtCategFir.code, subid="code";
+							include ../../../../aaPlugin/ajaxInputUpd
+						.col-4.text-right
+							button.btn.btn-default.jsDetail-btnClick-obj.mr-5(type="button", data-id=PtCategFir._id) 详
+					.jsDetail-objElem(class="jsDetail-objElem-"+PtCategFir._id, style="display:none")
+						hr
+						.row
+							.col-4
+								- field="sort", value=PtCategFir.sort, subid="sort";
+								include ../../../../aaPlugin/ajaxInputUpd
+							.col-4
+								- fieldSels = fieldIsBottom;
+								- field="isBottom", subid="isBottom", nullDesp = false;
+								- selectedVal = PtCategFir.isBottom;
+								- fieldDesp="底层:";
+								if PtCategFir.isBottom == 1
+									- value="底层"
+								else
+									- value="非底层"
+								include ../../../../aaPlugin/ajaxSelectUpd
+								- fieldDesp = null;
+							.col-4.text-right
+								if PtCategFir.isBottom == Conf.isBottom.n.num
+									-a;
+									a.btn.border.border-primary.text-primary(href="/bsPtCategAdd?PtCategFar="+PtCategFir._id) +
+				.col-2.my-3.p-2.text-right
+					if PtCategFir.isBottom == Conf.isBottom.n.num
+						-a;
+						span.text-info 展开
+					else
+						.jsDel-objElem(style="display:none")
+							a.text-danger(href="/bsPtCategDel/"+PtCategFir._id) [删除]
+			each PtCategSec in PtCategFir.PtCategSons
+				- object = PtCategSec;
+				.row
+					.col-1
+					.col-9.border.rounded.my-2.p-2
+						.row
+							.col-8
+								- field="code", value=PtCategSec.code, subid="code";
+								include ../../../../aaPlugin/ajaxInputUpd
+							.col-4.text-right
+								button.btn.btn-default.jsDetail-btnClick-obj.mr-5(type="button", data-id=PtCategSec._id) 详
+						.jsDetail-objElem(class="jsDetail-objElem-"+PtCategSec._id, style="display:none")
+							hr
+							.row
+								.col-4
+									- field="sort", value=PtCategSec.sort, subid="sort";
+									include ../../../../aaPlugin/ajaxInputUpd
+								.col-4
+									- fieldSels = fieldIsBottom;
+									- field="isBottom", subid="isBottom", nullDesp = false;
+									- selectedVal = PtCategSec.isBottom;
+									- fieldDesp="底层:";
+									if PtCategSec.isBottom == 1
+										- value="底层"
+									else
+										- value="非底层"
+									include ../../../../aaPlugin/ajaxSelectUpd
+									- fieldDesp = null;
+								.col-4.text-right
+									if PtCategSec.isBottom == Conf.isBottom.n.num
+										-a;
+										a.btn.border.border-primary.text-primary(href="/bsPtCategAdd?PtCategFar="+PtCategSec._id) +
+					.col-2.my-3.p-2.text-right
+						if PtCategSec.isBottom == Conf.isBottom.n.num
+							-a;
+							span.text-info 展开
+						else
+							.jsDel-objElem(style="display:none")
+								a.text-danger(href="/bsPtCategDel/"+PtCategSec._id) [删除]
+				each PtCategThd in PtCategSec.PtCategSons
+					- object = PtCategThd;
+					.row
+						.col-2
+						.col-8.border.rounded.my-2.p-2
+							.row
+								.col-8
+									- field="code", value=PtCategThd.code, subid="code";
+									include ../../../../aaPlugin/ajaxInputUpd
+								.col-4.text-right
+									button.btn.btn-default.jsDetail-btnClick-obj.mr-5(type="button", data-id=PtCategThd._id) 详
+							.jsDetail-objElem(class="jsDetail-objElem-"+PtCategThd._id, style="display:none")
+								hr
+								.row
+									.col-4
+										- field="sort", value=PtCategThd.sort, subid="sort";
+										include ../../../../aaPlugin/ajaxInputUpd
+									.col-4
+									.col-4.text-right
+										if PtCategThd.isBottom == Conf.isBottom.n.num
+											-a;
+											a.btn.border.border-primary.text-primary(href="/bsPtCategAdd?PtCategFar="+PtCategThd._id) +
+						.col-2.my-3.p-2.text-right
+							if PtCategThd.isBottom == Conf.isBottom.n.num
+								-a;
+								span.text-info 展开
+							else
+								.jsDel-objElem(style="display:none")
+									a.text-danger(href="/bsPtCategDel/"+PtCategThd._id) [删除]
+		div(style="height: 200px")

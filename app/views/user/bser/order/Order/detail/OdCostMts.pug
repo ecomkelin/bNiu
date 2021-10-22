@@ -1,0 +1,23 @@
+if Order.OdCostMts
+	- OdCostMts = Order.OdCostMts;
+	table.table.table-striped.noprint
+		thead
+			tr
+				td 用料
+				td 供货商
+				td.text-right 用量
+		tbody
+			each OdCostMt in OdCostMts
+				- Mtrial = OdCostMt.Mtrial;
+				tr
+					td #{Mtrial.code}
+					td #{Mtrial.MtFirm.code}
+					td
+						.text-right: strong #{OdCostMt.dosage} #{OdCostMt.pterns}
+						if Mtrial.isPtern == 1
+							- let Pterns = OdCostMt.Pterns;
+							each ptern in Pterns
+								- let Ptern = ptern.Ptern;
+								.row.mt-2
+									.col-6 #{Ptern.code}
+									.col-6 #{ptern.dosage}

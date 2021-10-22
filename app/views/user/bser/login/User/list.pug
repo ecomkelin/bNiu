@@ -1,0 +1,39 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-12.text-right
+				button.btn.btn-danger.jsDel-btnClick.mr-5.my-3(type="button") - 
+				a.btn.btn-warning(href="/bsUserAdd") +
+		hr
+		.row.mt-3
+			.col-12
+				table.table.table-hover.table-bordered
+					thead
+						tr
+							th 账户
+							th 名字
+							th 角色
+							th.jsDel-objElem(style="display:none") 删除
+
+					tbody
+						each User in Users
+							-a;
+							tr(class="User-id-"+User._id)
+								td: a(href="/bsUser/"+User._id) #{User.code}
+								td #{User.nome}
+								td
+									- let role = '';
+									each roleUser in Conf.roleUser
+										- role = '';
+										if roleUser.num == User.role
+											- role = roleUser.val;
+											- break;
+									span #{role}
+								td.jsDel-objElem(style="display:none")
+									a.text-danger(href="/bsUserDel/"+User._id) [删除]

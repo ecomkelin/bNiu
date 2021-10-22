@@ -1,0 +1,62 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		if info
+			-a;
+			.border.p-2.my-3.rounded.text-center.text-warning
+				h3 #{info}
+				.text-right
+					a.btn.btn-default(href="/bsMtrials") 确认
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-6
+				input#codeSearch.form-control(type="text")
+			.col-6.text-right
+				button.btn.btn-danger.jsDel-btnClick.mr-5(type="button") -
+				a.btn.btn-info(href="/bsMtrialAdd") +
+		//- .MtFirmsList
+			button.MtFirmClick.btn.mt-3(type="button" data-pdnome="") 供货商选择:
+			button.MtFirmClick#MtFirmAll.btn.btn-success.ml-5.mt-3(type="button" data-pdnome="") 全部
+			each MtFirm in MtFirms
+				-a;
+				button.MtFirmClick.btn.btn-default.ml-4.mt-3(type="button" data-pdnome=MtFirm._id) #{MtFirm.code}
+
+		//- .objectsList
+			input#objectFilterAjax(type="hidden", value="/bsMtrialsAjax?@#objectsElem@bs")
+			#objectsElem.mt-5
+	.container-fluid
+		.row.mt-5
+			.col-lg-3.px-5
+				.all
+					button.MtCategClick.btn.mt-3(type="button" data-pdcateg="") 产品类型:
+					button.MtCategClick#MtCategAll.btn.btn-success.ml-5.mt-3(type="button" data-pdcateg="") 全部
+				each MtCategFir in MtCategs
+					-a;
+					.mb-2
+						button.MtCategClick.btn.btn-default.mt-3(type="button" data-pdcateg=MtCategFir._id data-level=1) #{MtCategFir.code}
+					each MtCategSec in MtCategFir.MtCategSons
+						-a;
+						div.ml-4
+							button.MtCategClick.btn.btn-default(type="button" data-pdcateg=MtCategSec._id data-level=2) #{MtCategSec.code}
+						each MtCategThd in MtCategSec.MtCategSons
+							-a;
+							div.ml-4
+								button.ml-4.MtCategClick.btn.btn-default(type="button" data-pdcateg=MtCategThd._id data-level=3) #{MtCategThd.code}
+
+			.col-lg-8
+				.MtFirmsList
+					button.MtFirmClick.btn.mt-3(type="button" data-pdnome="") 供货商选择:
+					button.MtFirmClick#MtFirmAll.btn.btn-success.ml-5.mt-3(type="button" data-pdnome="") 全部
+					each MtFirm in MtFirms
+						-a;
+						button.MtFirmClick.btn.btn-default.ml-4.mt-3(type="button" data-pdnome=MtFirm._id) #{MtFirm.code}
+				.objectsList
+					input#objectFilterAjax(type="hidden", value="/bsMtrialsAjax?@#objectsElem@bs")
+					#objectsElem.mt-5
+			.col-lg-1
+	script(src="/js/bser/material/Mtrial/list.js")
+	script(src="/js/dbs/material/Mtrial.js")

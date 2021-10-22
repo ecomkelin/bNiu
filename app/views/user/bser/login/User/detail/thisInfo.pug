@@ -1,0 +1,23 @@
+table.mt-3.table.table-hover
+	tr
+		td: strong Code:
+		td #{User.code}
+	tr
+		td: strong name:
+		td #{User.nome}
+	tr
+		td: strong role:
+		td
+			- let role = '';
+			each roleUser in Conf.roleUser
+				- role = '';
+				if roleUser.num == User.role
+					- role = roleUser.val;
+					- break;
+			span #{role}
+	tr
+		td: strong createAt:
+		td #{moment(User.crtAt).format('DD/MM/YYYY HH:mm:ss')}
+	tr
+		td: strong updateAt:
+		td #{moment(User.updAt).format('DD/MM/YYYY HH:mm:ss')}

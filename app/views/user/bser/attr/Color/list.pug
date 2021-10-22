@@ -1,0 +1,27 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		if info
+			-a;
+			.border.p-2.my-3.rounded.text-center.text-warning
+				h3 #{info}
+				.text-right
+					a.btn.btn-default(href="/bsColors") 确认
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-6
+				input#codeSearch.form-control(type="text")
+			.col-6.text-right
+				button.btn.btn-danger.jsDel-btnClick.mr-5(type="button") -
+				a.btn.btn-warning(href="/bsColorAdd") +
+
+		.objectsList
+			input#objectFilterAjax(type="hidden", value="/bsColorsAjax?@#objectsElem@bs")
+			#objectsElem.mt-5
+	script(src="/js/bser/attr/Color/list.js")
+	script(src="/js/dbs/attr/Color.js")
+		

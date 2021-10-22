@@ -1,0 +1,30 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPdspus") 产品列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		
+		.row
+			.col-md-6.mt-3
+				button.btn.btn-success.pageBtn#pageBtn-Pdspu.mr-5(type="button") 信息
+				button.btn.btn-defalut.pageBtn#pageBtn-PdCostMt.mr-5(type="button") 用料
+				button.btn.btn-defalut.pageBtn#pageBtn-Pdsku(type="button") 库存
+			.col-md-6.text-right.mt-3
+				button.btn.btn-danger.jsDel-btnClick.mr-5(type="button") -
+				button.btn.btn-warning.jsUp-btnClick(type="button") 改
+		hr
+		.page#page-Pdspu
+			include ./detail/Pdspu
+
+		.page#page-PdCostMt(style="display:none")
+			include ./detail/PdCostMt
+		.page#page-Pdsku(style="display:none")
+			include ./detail/Pdsku
+
+
+		div(style="height: 200px")
+	script(src="/js/bser/product/Pdspu/detail.js")

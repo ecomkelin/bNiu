@@ -1,0 +1,23 @@
+a.btn.btn-warning(href="#", data-toggle="modal", data-target="#updPwd") 重置密码
+
+#updPwd.modal.fade
+	.modal-dialog
+		.modal-content
+			form#upPw(method="post", action="/bsUserUpdPwd", enctype="multipart/form-data")
+				.modal-header: h3 更新密码
+				.modal-body
+					input(type="hidden", name="obj[_id]", value=User._id)
+					.form-group.row
+						label.col-3.col-form-label(for="iptCode") 用户
+						.col-9.text-center #{User.code} #{User.nome}
+					.form-group.row
+						label.col-3.col-form-label(for="iptPwd") Password
+						.col-9
+							input#iptPwd.form-control(type="text", name="obj[pwd]")
+					.form-group.row
+						label.col-3.col-form-label(for="iptCkPwd") CheckPw
+						.col-9
+							input#iptCkPwd.form-control(type="text")
+				.modal-footer
+					button.btn.btn-default(type="button" data-dismiss="modal") 取消
+					button.btn.btn-success(type="submit") 提交

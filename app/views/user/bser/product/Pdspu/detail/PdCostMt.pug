@@ -1,0 +1,54 @@
+.border.rounded.p-2.mt-3
+	.row
+		.col-6
+			h3 材质:
+		.col-6.text-right.mt-3.jsUp-objElem(style="display:none")
+			a.text-warning(href="/bsPdspuMtrialUp/"+Pdspu._id) [修改]
+	.row
+		each Mtrial in Pdspu.Mtrials
+			-a;
+			.col-6.col-xl-3.mt-3
+				.card.text-center(style="width: 100%;")
+					img.card-img-top.border-bottom.js-click-imgEnlarge(src=Mtrial.photo, alt="Mtrial Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+					h5.mt-3.card-title #{Mtrial.code}
+- var sizes = new Array();
+if Pdspu.sizes && Pdspu.sizes.length > 0
+	- sizes = Pdspu.sizes;
+else
+	- sizes.push(0);
+
+.row.mt-3
+	.col-12.mt-3
+		h3 用料管理
+	.col-12.mt-3
+		- var widthTr = 100/(sizes.length+1);
+
+		- getUrl = "/bsPdspuPdCostMtUpdAjax"
+		- field="dosage", subid='dosage', fieldDesp=null;
+		table.table.table-hover.table-bordered.text-center
+			thead
+				tr
+					th(width=widthTr+"%")
+					each size in sizes
+						- let val = size;
+						th(width=widthTr+"%") #{val}
+			tbody
+				each Mtrial in Pdspu.Mtrials
+					- a;
+					tr
+						td #{Mtrial.code}
+
+						each size in sizes
+							- a;
+							td
+								- let Dosage = {};
+								each PdCostMt in Pdspu.PdCostMts
+									if size == 0
+										if PdCostMt.size == null && String(PdCostMt.Mtrial) == String(Mtrial._id)
+											- Dosage = PdCostMt;
+											- break;
+									else if PdCostMt.size == size && String(PdCostMt.Mtrial) == String(Mtrial._id)
+										- Dosage = PdCostMt;
+										- break;
+								- object=Dosage, value=Dosage.dosage;
+								include ../../../../../aaPlugin/ajaxInputUpd

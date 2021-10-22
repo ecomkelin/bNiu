@@ -1,0 +1,27 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsSizes") 尺寸表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		form.mt-5(method="post", action="/bsSizeSystNew", enctype="multipart/form-data")
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="codeIpt") code
+				.col-9.col-sm-6
+					input#codeIpt.form-control(type="text", name="obj[code]")
+				.offset-3.col-9.col-form-label#codeDanger.text-danger(style="display:none") 请输入正确的编号
+			hr
+			- let langsLen = -1;
+			each Lang in Langs
+				- langsLen++;
+				.form-group.row
+					label.col-3.col-sm-2.col-form-label(for="nomeIpt-"+Lang.code) #{Lang.code}
+					.col-9.col-sm-6
+						input.form-control(type="hidden", name="obj[langs]["+langsLen+"][Lang]", value=Lang._id)
+						input.form-control(id="nomeIpt-"+Lang.code, type="text", name="obj[langs]["+langsLen+"][nome]")
+			.form-group.row
+				.offset-sm-6.col-sm-2
+					input.btn.btn-success.btn-block(type="submit" value="确认")

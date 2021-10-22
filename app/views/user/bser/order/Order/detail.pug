@@ -1,0 +1,33 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		if info
+			-a;
+			.border.p-2.my-3.rounded.text-center.text-warning
+				h3 #{info}
+				.text-right
+					a.btn.btn-default(href="/bsOrder/"+Order._id) 确认
+		nav.noprint(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsOrders") 订单列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+
+		input#OrderId(type="hidden", value=Order._id)
+		input#OrderStep(type="hidden", value=Order.step)
+		include ./detail/basic
+		.text-right.noprint
+			a.text-danger(href="/bsOrderDel/"+Order._id) [删除]
+			button.ml-5.btn.btn-warning.js-click-printBtn(type="button") 打印
+		hr
+		if Order.step == 1
+			-a;
+			include ./detail/OdspuAdd
+		include ./detail/Odspus
+		div(style="height: 100px")
+
+		if Order.step != 1
+			include ./detail/OdCostMts
+
+		div(style="height: 300px")

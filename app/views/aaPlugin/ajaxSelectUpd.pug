@@ -1,0 +1,16 @@
+if fieldDesp
+	-a;
+	span.jsUpd-field.text-info.mr-3(data-field=field, data-subid=subid, data-id=object._id) #{fieldDesp}
+if !valueHide
+	-a;
+	span.bg-white.text-info.jsUpd-span(class="jsUpd-span-"+field+"-"+subid+"-"+object._id, data-field=field, data-subid=subid, data-id=object._id) [ #{value} ]
+select.jsUpd-sel.form-control(class="jsUpd-sel-"+field+"-"+subid+"-"+object._id, data-field=field, data-subid=subid, data-id=object._id, data-url=getUrl, style="display:none", data-style="btn-info")
+	if nullDesp
+		-a;
+		option(value="") #{nullDesp}
+	each fieldSel in fieldSels
+		if selectedVal == String(fieldSel.val)
+			-a;
+			option(value=fieldSel.val, selected="selected") #{fieldSel.text}
+		else
+			option(value=fieldSel.val) #{fieldSel.text}

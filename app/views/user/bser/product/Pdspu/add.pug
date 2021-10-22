@@ -1,0 +1,70 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPdspus") 产品列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		hr
+		form.mt-5#objForm(method="post", action="/bsPdspuNew", enctype="multipart/form-data")
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="codeIpt") code
+				.col-9.col-sm-6
+					input#codeIpt.form-control(type="text", name="obj[code]", autocomplete="off")
+				.offset-3.col-9.col-form-label#codeDanger.text-danger(style="display:none") 请输入正确的编号
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label 分类
+				.col-3.col-sm-2
+					input#ipt-PdCateg-1.iptPdCateg.form-control(type="hidden", name="obj[PdCategFir]" autocomplete="off")
+					input#req-PdCateg-1.reqPdCateg.form-control(type="text", autocomplete="off")
+				.col-3.col-sm-2
+					input#ipt-PdCateg-2.iptPdCateg.form-control(type="hidden", name="obj[PdCategSec]" autocomplete="off")
+					input#req-PdCateg-2.reqPdCateg.form-control(type="text", autocomplete="off")
+				.col-3.col-sm-2
+					input#ipt-PdCateg-3.iptPdCateg.form-control(type="hidden", name="obj[PdCategThd]" autocomplete="off")
+					input#req-PdCateg-3.reqPdCateg.form-control(type="text", autocomplete="off")
+				.offset-3.offset-sm-2.col-9.col-sm-6.col-form-label#PdCateg-box
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label PdNome
+				.col-9.col-sm-6
+					input#PdNomeIpt.form-control(type="hidden", name="obj[PdNome]" , autocomplete="off")
+					input#PdNomeReq.form-control(type="text", name="codePdNome" autocomplete="off")
+				.offset-3.offset-sm-2.col-9.col-sm-6.col-form-label#PdNomeDanger.text-danger(style="display:none") 请输入产品名称
+				.offset-3.offset-sm-2.col-9.col-sm-6.col-form-label#PdNome-box
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="despIpt") desp
+				.col-9.col-sm-6
+					input#despIpt.form-control(type="text", name="obj[desp]")
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="priceIpt") price
+				.col-9.col-sm-6
+					input#priceIpt.form-control(type="text", name="obj[price]")
+				.offset-3.col-9.col-form-label#priceDanger.text-danger(style="display:none") 请输入正确的售价
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="costIpt") cost
+				.col-9.col-sm-6
+					input#costIpt.form-control(type="text", name="obj[cost]")
+				.offset-3.col-9.col-form-label#costDanger.text-danger(style="display:none") 请输入正确的成本格式
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="weightIpt") weight
+				.col-9.col-sm-6
+					input#weightIpt.form-control(type="text", name="obj[weight]")
+				.offset-3.col-9.col-form-label#weightDanger.text-danger(style="display:none") 重量是数字
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="SizeSystIpt") 尺寸标准
+				.col-9.col-sm-6
+					select#SizeSystIpt.form-control(name="obj[SizeSyst]", data-style="btn-info")
+						each SizeSyst in SizeSysts
+							- code = "["+SizeSyst.code+"]";
+							option(value=SizeSyst._id) #{code}
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="sortIpt") sort
+				.col-9.col-sm-6
+					input#sortIpt.form-control(type="number", name="obj[sort]", value=1)
+			hr
+			.form-group.row
+				.offset-sm-6.col-sm-2
+					input.btn.btn-success.btn-block(type="submit" value="确认")
+	script(src="/js/bser/product/Pdspu/edit.js")

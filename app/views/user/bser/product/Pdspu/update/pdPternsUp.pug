@@ -1,0 +1,44 @@
+extends ../../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPdspus") 产品列表
+				li.breadcrumb-item: a(href="/bsPdspu/"+Pdspu._id) 产品详情
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		hr
+		h4 产品印花(已选)
+		.row#PternedsBox
+			each Ptern in Pdspu.Pterns
+				- var codePtern = ' ';
+				if Ptern.code
+					- codePtern = Ptern.code;
+					if codePtern.length > 8
+						- codePtern = codePtern.slice(0,6) + '...';
+				.col-6.col-lg-3.mt-3.text-center(id="Pterned-"+Ptern._id)
+					.card
+						img.card-img-top.border-bottom.js-click-imgEnlarge(src=Ptern.photo, alt="Ptern Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+						.togglePtern.text-success(data-objid=Pdspu._id, data-subid=Ptern._id, data-option=-1) #{codePtern}
+		hr
+		h4 未选
+		.row#PternPoolsBox
+			each Ptern in Pterns
+				- var flag = 0;
+				each cl in Pdspu.Pterns
+					if String(cl._id) == String(Ptern._id)
+						- flag = 1;
+						- break;
+				if flag == 1
+					- continue;
+				- var codePtern = ' ';
+				if Ptern.code
+					- codePtern = Ptern.code;
+					if codePtern.length > 8
+						- codePtern = codePtern.slice(0,6) + '...';
+				.col-6.col-lg-3.mt-3.text-center(id="PternPool-"+Ptern._id)
+					.card
+						img.card-img-top.border-bottom.js-click-imgEnlarge(src=Ptern.photo, alt="Ptern Photo Lost", width="100%", height="150px", style="object-fit: scale-down;")
+						.togglePtern.text-dark(data-objid=Pdspu._id, data-subid=Ptern._id, data-option=1) #{codePtern}
+	script(src="/js/bser/product/Ptern.js")

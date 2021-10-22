@@ -1,0 +1,29 @@
+a.btn.btn-warning(href="#", data-toggle="modal", data-target="#updInfo") edit
+
+#updInfo.modal.fade
+	.modal-dialog
+		.modal-content
+			form#upInfo(method="post", action="/bsUserUpdInfo", enctype="multipart/form-data")
+				.modal-header: h3 <span class="oi oi-pencil"></span>
+				.modal-body
+					input(type="hidden", name="obj[_id]", value=User._id)
+					.form-group.row
+						label.col-3.col-form-label(for="nomeIpt") 名字
+						.col-9
+							input#nomeIpt.form-control(type="text", name="obj[nome]" value=User.nome)
+						.offset-3.col-9.col-form-label.text-danger
+					.form-group.row
+						label.col-3.col-form-label(for="roleSelect") role
+						.col-9
+							select#roleSelect.form-control(name="obj[role]", data-style="btn-info")
+								each role in Conf.roleUser
+									if role.num > crUser.role
+										-a;
+										if User.role == role.num
+											-a;
+											option(value=role.num, selected="selected") #{role.val}
+										else
+											option(value=role.num) #{role.val}
+				.modal-footer
+					button.btn.btn-default(type="button" data-dismiss="modal") 取消
+					button.btn.btn-success(type="submit") 提交

@@ -1,0 +1,62 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		if info
+			-a;
+			.border.p-2.my-3.rounded.text-center.text-warning
+				h3 #{info}
+				.text-right
+					a.btn.btn-default(href="/bsPterns") 确认
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-6
+				input#codeSearch.form-control(type="text")
+			.col-6.text-right
+				button.btn.btn-danger.jsDel-btnClick.mr-5(type="button") -
+				a.btn.btn-warning(href="/bsPternAdd") +
+		//- .PtFirmsList
+			button.PtFirmClick.btn.mt-3(type="button" data-pdnome="") 供货商选择:
+			button.PtFirmClick#PtFirmAll.btn.btn-success.ml-5.mt-3(type="button" data-pdnome="") 全部
+			each PtFirm in PtFirms
+				-a;
+				button.PtFirmClick.btn.btn-default.ml-4.mt-3(type="button" data-pdnome=PtFirm._id) #{PtFirm.code}
+
+		//- .objectsList
+			input#objectFilterAjax(type="hidden", value="/bsPternsAjax?@#objectsElem@bs")
+			#objectsElem.mt-5
+	.container-fluid
+		.row.mt-5
+			.col-lg-3.px-5
+				.all
+					button.PtCategClick.btn.mt-3(type="button" data-pdcateg="") 产品类型:
+					button.PtCategClick#PtCategAll.btn.btn-success.ml-5.mt-3(type="button" data-pdcateg="") 全部
+				each PtCategFir in PtCategs
+					-a;
+					.mb-2
+						button.PtCategClick.btn.btn-default.mt-3(type="button" data-pdcateg=PtCategFir._id data-level=1) #{PtCategFir.code}
+					each PtCategSec in PtCategFir.PtCategSons
+						-a;
+						div.ml-4
+							button.PtCategClick.btn.btn-default(type="button" data-pdcateg=PtCategSec._id data-level=2) #{PtCategSec.code}
+						each PtCategThd in PtCategSec.PtCategSons
+							-a;
+							div.ml-4
+								button.ml-4.PtCategClick.btn.btn-default(type="button" data-pdcateg=PtCategThd._id data-level=3) #{PtCategThd.code}
+
+			.col-lg-8
+				.PtFirmsList
+					button.PtFirmClick.btn.mt-3(type="button" data-pdnome="") 供货商选择:
+					button.PtFirmClick#PtFirmAll.btn.btn-success.ml-5.mt-3(type="button" data-pdnome="") 全部
+					each PtFirm in PtFirms
+						-a;
+						button.PtFirmClick.btn.btn-default.ml-4.mt-3(type="button" data-pdnome=PtFirm._id) #{PtFirm.code}
+				.objectsList
+					input#objectFilterAjax(type="hidden", value="/bsPternsAjax?@#objectsElem@bs")
+					#objectsElem.mt-5
+			.col-lg-1
+	script(src="/js/bser/pattern/Ptern/list.js")
+	script(src="/js/dbs/pattern/Ptern.js")

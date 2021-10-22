@@ -1,0 +1,42 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item: a(href="/bsPtCategs") 印花分类列表
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-12.text-right
+				a.mx-4.btn.btn-danger(href="/bsPtCategDel/"+PtCateg._id) 删除
+				a.btn.btn-warning(href="/bsPtCategUp/"+PtCateg._id) 修改
+		hr
+		.row
+			.col-md-4
+			.col-md-4
+				.card.text-center(style="width: 100%;")
+					h5.card-title #{PtCateg.code}
+					.card-body
+						.far
+							span.mr-3 父分类:
+							if PtCateg.PtCategFar
+								- PtCategFar = PtCateg.PtCategFar;
+								a(href="/bsPtCateg/"+PtCategFar._id) #{PtCategFar.code}
+						.sort 排序: #{PtCateg.sort}
+						.isBottom
+							if PtCateg.isBottom == 1
+								-a;
+								span #{Conf.isBottom.y.val}
+							else
+								span #{Conf.isBottom.n.val}
+
+		if PtCateg.PtCategSons && PtCateg.PtCategSons.length > 0
+			- PtCategSons = PtCateg.PtCategSons;
+			hr
+			h4 子分类:
+			.row
+				each PtCategSon in PtCategSons
+					- object = PtCategSon;
+					.col-4.border.rounded.my-3.p-2
+						a(href="/bsPtCateg/"+PtCategSon._id) #{PtCategSon.code}

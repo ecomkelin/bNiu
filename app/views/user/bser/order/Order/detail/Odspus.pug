@@ -1,0 +1,21 @@
+.row.mt-5.noprint
+	.col-4
+		if Order.step == 1
+			-a;
+			button.btn.btn-info.changeStep(type="button" data-url="/bsOrderUpdStepAjax" data-id=Order._id, data-cr=Order.step, data-nt=10) 确认
+		else if Order.step == 10
+			-a;
+			button.mr-3.btn.btn-secondary.changeStep(type="button" data-url="/bsOrderUpdStepAjax" data-id=Order._id, data-cr=Order.step, data-nt=50) 历史
+			button.btn.btn-warning.changeStep(type="button" data-url="/bsOrderUpdStepAjax" data-id=Order._id, data-cr=Order.step, data-nt=1) 重置
+		else if Order.step == 50
+			-a;
+			button.btn.btn-warning.changeStep(type="button" data-url="/bsOrderUpdStepAjax" data-id=Order._id, data-cr=Order.step, data-nt=1) 重置
+	.col-8.text-right
+		if Order.step == 1
+			-a;
+			button.btn.btn-danger.jsDel-btnClick(type="button") -
+.OdspusList
+	input#OdspusFilterAjax(type="hidden", value="/bsOdspusAjax?Order="+Order._id+"@#OdspusElem@bs")
+	#OdspusElem.mt-3
+
+script(src="/js/bser/order/Order/detail/Odspus.js")

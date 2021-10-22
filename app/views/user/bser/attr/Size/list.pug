@@ -1,0 +1,47 @@
+extends ../../../aalayout/layout
+
+block content
+	.container
+		nav(aria-label="breadcrumb")
+			ol.breadcrumb
+				li.breadcrumb-item: a(href="/bser") Home
+				li.breadcrumb-item.active(aria-current="page") #{title}
+		.row.my-3
+			.col-12.text-right
+				button.btn.btn-danger.jsDel-btnClick.mr-5(type="button") -
+				a.btn.btn-warning(href="/bsSizeSystAdd") +
+
+		- let widthTr = 100/(SizeNums.length+1);
+		table.table.table-hover.table-bordered
+			thead
+				tr
+					th(width=widthTr+"%")
+					each sizeNum in SizeNums
+						-a;
+						th(width=widthTr+"%") #{sizeNum}
+			tbody
+				each SizeSyst in SizeSysts
+					- a;
+					tr
+						td
+							- getUrl = "/bsSizeSystUpdAjax", object = SizeSyst;
+							- field="code", value=SizeSyst.code, subid='code';
+							include ../../../../aaPlugin/ajaxInputUpd
+							.mt-3.jsDel-objElem(style="display:none")
+								a.text-danger(href="/bsSizeSystDel/"+SizeSyst._id) [删除]
+						each sizeNum in SizeNums
+							- size = null;
+							td
+								each Size in Sizes
+									if String(Size.SizeSyst) == String(SizeSyst._id) && Size.size == sizeNum
+										- size = Size;
+										- break;
+								if size
+									- getUrl = "/bsSizeUpdAjax", object = size;
+									- field="symbol", value=size.symbol, subid='symbol';
+									include ../../../../aaPlugin/ajaxInputUpd
+									
+								else
+									span.bg-white.text-warning.new-span(class="new-span-"+sizeNum+"-"+SizeSyst._id, data-size=sizeNum, data-standard=SizeSyst._id) *
+									input.new-ipt.form-control(class="new-ipt-"+sizeNum+"-"+SizeSyst._id, type="text", data-size=sizeNum, data-standard=SizeSyst._id, data-url="/bsSizeNewAjax", style="display:none")
+	script(src="./js/bser/attr/Size/list.js")

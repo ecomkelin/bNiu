@@ -1,0 +1,113 @@
+.row
+	.col-md-6
+		.code 订单号: #{Order.code}
+	.col-6.col-md-3
+		//- .categ 类型: 
+			- let categ = '';
+			each OrderCateg in Conf.OrderCateg
+				- categ = '';
+				if OrderCateg.num == Order.categ
+					- categ = OrderCateg.val;
+					- break;
+			span.text-info #{categ}
+	.col-6.col-md-3
+		.step 状态: 
+			- let step = '';
+			each OrderStep in Conf.OrderStep
+				- step = '';
+				if OrderStep.num == Order.step
+					- step = OrderStep.val;
+					- break;
+			span.text-info #{step}
+.row
+	.col-6.col-md-3
+		.cter 客人: 
+			if Order.cter
+				-a;
+				span.text-info #{Order.cter.code}
+			else
+				span.text-danger 散客
+	.col-6.col-md-3
+		.crter 开单人: 
+			if Order.crter
+				-a;
+				span.text-info #{Order.crter.code}
+			else
+				span.text-danger 数据丢失
+	.col-6.col-md-3
+		//- .payment 付款状态: #{Order.payment}
+	.col-6.col-md-3
+if Order.step > 1
+	-a;
+	.row
+		.col-6.col-md-3.noprint
+			- let tot = 0;
+			.tot 订货价: 
+				if Order.tot && !isNaN(parseFloat(Order.tot))
+					- tot = parseFloat(Order.tot);
+				span.text-info #{tot.toFixed(2)} 
+				span Euro
+		//- .col-6.col-md-3
+			- let totle = 0;
+			.totle 送货价: 
+				if Order.totle && !isNaN(parseFloat(Order.totle))
+					- totle = parseFloat(Order.totle);
+				span.text-info #{totle.toFixed(2)} 
+				span Euro
+		.col-6.col-md-3
+			//- .imp 应付: 
+				- let imp = 0;
+				if Order.imp && !isNaN(parseFloat(Order.imp))
+					- imp = parseFloat(Order.imp);
+				span.text-info #{imp.toFixed(2)} 
+				span Euro
+		.col-6.col-md-3
+			//- .paid 已付: 
+				- let paid = 0;
+				if Order.paid && !isNaN(parseFloat(Order.paid))
+					- paid = parseFloat(Order.paid);
+				span.text-info #{paid.toFixed(2)} 
+				span Euro
+		.col-6.col-md-3
+			.quant 订货数量: 
+				span.text-info #{Order.quan}
+		//- .col-6.col-md-3
+			.ship 发货数量: 
+				span.text-info #{Order.ship}
+.row
+	//- .col-6.col-md-3
+	//- 	.crtAt 创建: #{moment(Order.crtAt).format("YY年MM月DD日")}
+	//- .col-6.col-md-3
+	//- 	.updAt 更新: #{moment(Order.updAt).format("YY年MM月DD日")}
+	.col-6.col-md-6
+		.startAt 开单时间: 
+			if Order.startAt
+				- startAt = Order.startAt;
+				span #{moment(startAt).format("YY年MM月DD日 HH:mm:ss")}
+	.col-6.col-md-6.noprint
+		.preShipAt
+			span.preShipAt-btn 预计送货时间: 
+			- let preShipAt = '', preShipAtVal='';
+			if Order.preShipAt
+				- preShipAt = moment(Order.preShipAt).format("YYYY年MM月DD日");
+				- preShipAtVal = moment(Order.preShipAt).format("MM/DD/YYYY");
+			span#preShipAt-span #{preShipAt}
+			input#preShipAt-ipt.datepicker.form-control(type="text", readonly="readonly", value=preShipAtVal, style="display:none")
+	.col-6.col-md-6.noprint
+		if Order.preShipAt
+			-a;
+			span.mr-2.spanShip 距离送货倒计时: 
+			span.text-danger.countdownAt
+	//- if Order.step > 15
+		-a;
+		.col-6.col-md-3
+			.finishAt 结束: 
+				if Order.finishAt
+					- finishAt = Order.finishAt;
+					span #{moment(finishAt).format("YY年MM月DD日")}
+if Order.note
+	- note = Order.note;
+	.note #{note}
+
+include ../../../../../aaComponent/timepicker
+script(src="/js/bser/order/Order/detail/basic.js")

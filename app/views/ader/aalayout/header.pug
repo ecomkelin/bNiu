@@ -1,0 +1,14 @@
+.navbar.navbar-light.navbar-expand-md.fixed-top.noprint(style="background-color: #20B2AA;")
+	a(href="/ader")
+		img(src="/media/icon/icon.jpg", width="35px")
+	button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation")
+		<span class="navbar-toggler-icon"></span>
+
+	if crAder
+		-a;
+		.collapse.navbar-collapse#navbarTogglerDemo02
+			ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+			ul.navbar-nav
+				li: a.btn.btn-info(href="/ader/"+crAder._id) hello: #{crAder.code}
+				span &nbsp;&nbsp;&nbsp;&nbsp;
+				li: a.btn.btn-danger(href="/aderLogout") Logout

@@ -1,0 +1,16 @@
+.text-right.p-5
+	button.ml-5.px-3.btn.btn-warning#odspuAdd-btn(type="button") 下单
+#odspuAdd-Form-Box.p-5(style="display:none")
+	form(method="post", action="/bsOrderNew", enctype="multipart/form-data")
+		input#headerCterId.form-control(type="hidden", name="obj[cter]")
+		.form-group.row
+			label.col-3.text-right.col-form-label(for="headerCterCode") 客户
+			.col-9
+				input#headerCterCode.form-control(type="text", autocomplete="off")
+			.offset-3.col-9.col-form-label.text-danger
+		.headerCterList
+			input#headerCterFilterAjax(type="hidden", value="/bsUsersAjax?role=99@#headerCtersElem@bs")
+			#headerCtersElem.mt-3
+		.form-group.text-right
+			input.btn.btn-success(type="submit", value="确定")
+script(src="/js/bser/order/Order/add.js")
